@@ -1,17 +1,42 @@
 [
   {
     "artist": "Grateful Dead",
-    "title": "Tennessee Jed",
-    "file": "/tabs/tennessee-jed.pdf"
+    "songs": [
+      {
+        "title": "Tennessee Jed",
+        "file": "/tabs/tennessee-jed.pdf"
+      }
+    ]
   },
   {
     "artist": "John Prine",
-    "title": "Clay Pigeons",
-    "file": "/tabs/clay-pigeons.pdf"
+    "songs": [
+      {
+        "title": "Clay Pigeons",
+        "file": "/tabs/clay-pigeons.pdf"
+      }
+    ]
   },
   {
     "artist": "The Band",
-    "title": "The Weight",
-    "file": "/tabs/the-weight.pdf"
+    "songs": [
+      {
+        "title": "The Weight",
+        "file": "/tabs/the-weight.pdf"
+      }
+    ]
+  },
+  {
+    "artist": "The Beatles",
+    "songs": [
+      {
+        "title": "Don't Let Me Down",
+        "file": "/tabs/dont-let-me-down.pdf"
+      },
+      {
+        "title": "Blackbird",
+        "file": "/tabs/dont-let-me-down.pdf"
+      }
+    ]
   }
 ]

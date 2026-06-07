@@ -6,12 +6,23 @@ export default function App() {
   const [tabs, setTabs] = useState([])
   const [sortBy, setSortBy] = useState('title')
   const [asc, setAsc] = useState(true)
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
-    fetch('/tabs/tabs.json').then(r => r.json()).then(setTabs)
+    fetch('/tabs/tabs.json')
+      .then(r => r.json())
+      .then(data => setTabs(
+        data.flatMap(({ artist, songs }) =>
+          songs.map(({ title, file }) => ({ artist, title, file }))
+        )
+      ))
   }, [])
 
-  const sorted = [...tabs].sort((a, b) => {
+  const filtered = query
+    ? tabs.filter(tab => tab[sortBy].toLowerCase().includes(query.toLowerCase()))
+    : tabs
+
+  const sorted = [...filtered].sort((a, b) => {
     const cmp = a[sortBy].localeCompare(b[sortBy])
     return asc ? cmp : -cmp
   })
@@ -27,7 +38,7 @@ export default function App() {
 
   return (
     <div className="max-w-[680px] mx-auto px-6 py-8">
-      <header className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border)]">
+      <header className="flex items-center justify-between mb-4 pb-4 border-b border-[var(--border)]">
         <h1 className="m-0 text-[1.375rem] font-semibold tracking-[-0.02em] text-[var(--text-h)]">
           Guitar Tabs
         </h1>
@@ -55,6 +66,16 @@ export default function App() {
         </div>
       </header>
 
+      <div className="mb-6">
+        <input
+          type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder={`Search by ${sortBy === 'title' ? 'song' : 'artist'}…`}
+          className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-[8px] px-4 py-[0.625rem] text-[0.9375rem] text-[var(--text-h)] placeholder:text-[var(--text)] outline-none focus:border-[var(--accent)] transition-[border-color] duration-150 font-[var(--sans)]"
+        />
+      </div>
+
       <main>
         {letters.map((letter, i) => (
           <section key={letter}>
@@ -64,7 +85,7 @@ export default function App() {
             <ul className="list-none p-0 m-0 border border-[var(--border)] rounded-[8px] overflow-hidden">
               {groups[letter].map(tab => (
                 <li
-                  key={tab.file}
+                  key={`${tab.artist}-${tab.title}`}
                   className="flex items-center justify-between py-3 px-4 cursor-pointer transition-[background] duration-100 border-b border-[var(--border)] last:border-b-0 hover:bg-[var(--code-bg)]"
                   onClick={() => window.open(tab.file, '_blank')}
                 >
